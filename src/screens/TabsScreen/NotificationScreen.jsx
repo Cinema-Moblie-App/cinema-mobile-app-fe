@@ -4,11 +4,11 @@ import React from 'react'
 const NotificationScreen = () => {
   return (
     <View>
-      <Text>Screen</Text>
+      <Text>Notification Screen</Text>
     </View>
   )
 }
 
-export default Screen
+export default NotificationScreen
 
 const styles = StyleSheet.create({})
