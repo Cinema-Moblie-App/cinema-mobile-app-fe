@@ -1,0 +1,17 @@
+export enum AuthAPI{
+    LOGIN = "auth/login",
+    REGISTER = "auth/register",
+    RESET_PASSWORD = "auth/reset-password",
+}
+
+export enum FilmAPI{
+    GET_CURRENT_FILM = "films/now-showing",
+    GET_UPCOMING_FILM = "films/upcoming",
+    GET_FILM  = "films/:id",
+    GET_SCHEDULE_FILM_DETAIL = "films/:id/show-schedules",
+    TIME_SCHEDULE_FILM_DETAIL = "films/:id/showtimes",
+}
+
+export enum NewAPI{
+    GET_ALL_NEW = "news",
+}
