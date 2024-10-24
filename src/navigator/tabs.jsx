@@ -3,7 +3,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../screens/TabsScreen/HomeScreen'
 import NotificationScreen from '../screens/TabsScreen/NotificationScreen'
-import MovieScheduleScreen from '../screens/TabsScreen/MovieScheduleScreen'
+import MovieScheduleScreen from '../screens/TabsScreen/AllScheduleFilmScreen'
 import NewsScreen from '../screens/TabsScreen/NewsScreen'
 import AccountScreen from '../screens/TabsScreen/AccountScreen'
 import { Ionicons } from '@expo/vector-icons';
@@ -11,26 +11,26 @@ import { Ionicons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator()
 
 const TabsNavigator = () => {
-    return (
+    return (        
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
 
                     switch (route.name) {
-                        case 'Home':
+                        case 'Trang chủ':
                             iconName = focused ? 'home' : 'home-outline';
                             break;
-                        case 'Notification':
-                            iconName = focused ? 'notifications' : 'notifications-outline';
-                            break;
-                        case 'MovieSchedule':
+                        case 'Lịch phim':
                             iconName = focused ? 'calendar' : 'calendar-outline';
                             break;
-                        case 'News':
+                        case 'Thông báo':
+                            iconName = focused ? 'notifications' : 'notifications-outline';
+                            break;
+                        case 'Tin tức':
                             iconName = focused ? 'newspaper' : 'newspaper-outline';
                             break;
-                        case 'Account':
+                        case 'Tài khoản':
                             iconName = focused ? 'person' : 'person-outline';
                             break;
                         default:
@@ -42,30 +42,27 @@ const TabsNavigator = () => {
                 tabBarActiveTintColor: '#007AFF',
                 tabBarInactiveTintColor: 'gray',
                 tabBarStyle: {
-                    backgroundColor: '#FFFFFF',
-                    borderTopWidth: 0,
-                    elevation: 5,
-                    height: 60,
-                    paddingBottom: 5,
+                    backgroundColor: '#2F3251',
+                    borderTopWidth: 1,          
+                    borderTopColor: '#41467a',  
+                    elevation: 5,              
+                    shadowColor: '#000',        
+                    shadowOffset: { width: 0, height: -3 },  
+                    shadowOpacity: 0.3,        
+                    shadowRadius: 4,           
+                    height: 80,
+                    paddingBottom: 30,
                     paddingTop: 5,
                 }
             })}
         >
-            <Tab.Screen name='Home' component={HomeScreen} />
-            <Tab.Screen name='Notification' component={NotificationScreen} />
-            <Tab.Screen name='MovieSchedule' component={MovieScheduleScreen} />
-            <Tab.Screen name='News' component={NewsScreen} />
-            <Tab.Screen name='Account' component={AccountScreen} />
+            <Tab.Screen name='Trang chủ' component={HomeScreen} options={{ headerShown: false }} />
+            <Tab.Screen name='Lịch phim' component={MovieScheduleScreen} options={{ headerShown: false }} />
+            <Tab.Screen name='Tin tức' component={NewsScreen} options={{ headerShown: false }} />
+            <Tab.Screen name='Thông báo' component={NotificationScreen} options={{ headerShown: false }} />
+            <Tab.Screen name='Tài khoản' component={AccountScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     )
 }
 
 export default TabsNavigator
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
