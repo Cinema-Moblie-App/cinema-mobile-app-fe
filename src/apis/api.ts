@@ -15,3 +15,7 @@ export enum FilmAPI{
 export enum NewAPI{
     GET_ALL_NEW = "news",
 }
+
+export enum SeatAPI{
+    GET_SEAT_ROOM_SCHEDULE = "seats/:schedule_film_id",
+}

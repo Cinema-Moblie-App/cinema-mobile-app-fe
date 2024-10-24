@@ -7,6 +7,7 @@ import ResetPasswordSrceen from "../screens/Authentication/ResetPasswordSrceen";
 import UserInformationScreen from "../screens/UserInfomationScreen";
 import FilmDetailScreen from "../screens/Film/FilmDetailScreen";
 import FilmScheduleScreen from "../screens/Film/FilmScheduleScreen";
+import RoomFilmScreen from "../screens/Room/RoomFilmScreen";
 import TabsNavigator from "./tabs";
 
 export type RootStackParamList = {
@@ -17,7 +18,11 @@ export type RootStackParamList = {
   [AppRoutes.USER_INFORMATION]: undefined;
   [AppRoutes.INFO_FILM_DETAIL]: { filmId: number };
   [AppRoutes.SCHEDULE_FILM_DETAIL]: { filmId: number };
-
+  [AppRoutes.ROOM_FILM]: {
+    film_schedule_id: number;
+    room_id: number;
+    film_id: number;
+  };
 };
 
 export default function RootNavigator() {
@@ -47,9 +52,7 @@ export default function RootNavigator() {
         name={AppRoutes.SCHEDULE_FILM_DETAIL}
         component={FilmScheduleScreen}
       />
-
-
-
+      <MainStack.Screen name={AppRoutes.ROOM_FILM} component={RoomFilmScreen} />
     </MainStack.Navigator>
   );
 }

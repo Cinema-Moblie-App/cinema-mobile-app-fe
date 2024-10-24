@@ -11,11 +11,14 @@ import { RootStackParamList } from "@/navigator/root";
 import { AppRoutes } from "@/navigator/type";
 import filmService from "@/apis/film";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
-const formatDate = (dateString: string) => moment(dateString).format("YYYY-MM-DD");
-const formatDisplayDate = (dateString: string) => moment(dateString).format("DD/MM/YYYY");
+const formatDate = (dateString: string) =>
+  moment(dateString).format("YYYY-MM-DD");
+const formatDisplayDate = (dateString: string) =>
+  moment(dateString).format("DD/MM/YYYY");
 
 type FilmScheduleScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -32,6 +35,7 @@ type FilmSchedule = {
 
 type Showtime = {
   start_hour: string;
+  film_schedule_id: number;
 };
 
 const FilmScheduleScreen: React.FC<FilmScheduleScreenProps> = ({ route }) => {
@@ -39,7 +43,10 @@ const FilmScheduleScreen: React.FC<FilmScheduleScreenProps> = ({ route }) => {
   const [filmSchedule, setFilmSchedule] = useState<FilmSchedule[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [showtimes, setShowtimes] = useState<Showtime[]>([]);
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<RootStackParamList, AppRoutes.ROOM_FILM>
+    >();
 
   useEffect(() => {
     const fetchFilmSchedule = async () => {
@@ -72,6 +79,14 @@ const FilmScheduleScreen: React.FC<FilmScheduleScreenProps> = ({ route }) => {
     fetchShowtimes(date);
   };
 
+  const handleShowTimePress = (showtime: any) => {
+    navigation.navigate(AppRoutes.ROOM_FILM, {
+      film_schedule_id: showtime.film_schedule_id,
+      room_id: showtime.room_id,
+      film_id: filmId,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -91,7 +106,8 @@ const FilmScheduleScreen: React.FC<FilmScheduleScreenProps> = ({ route }) => {
             key={schedule.date}
             style={[
               styles.dateButton,
-              selectedDate === formatDate(schedule.date) && styles.selectedDateButton,
+              selectedDate === formatDate(schedule.date) &&
+                styles.selectedDateButton,
             ]}
             onPress={() => handleDatePress(formatDate(schedule.date))}
           >
@@ -105,7 +121,11 @@ const FilmScheduleScreen: React.FC<FilmScheduleScreenProps> = ({ route }) => {
       {/* Showtimes */}
       <View style={styles.timeContainer}>
         {showtimes.map((showtime) => (
-          <TouchableOpacity key={showtime.start_hour} style={styles.timeButton}>
+          <TouchableOpacity
+            key={showtime.start_hour}
+            style={styles.timeButton}
+            onPress={() => handleShowTimePress(showtime)}
+          >
             <Text style={styles.timeButtonText}>{showtime.start_hour}</Text>
           </TouchableOpacity>
         ))}
@@ -147,7 +167,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   selectedDateButton: {
-    backgroundColor: "#ff4757", // Màu đỏ cho ngày đã chọn
+    backgroundColor: "#ff4757",
   },
   dateText: {
     color: "white",
