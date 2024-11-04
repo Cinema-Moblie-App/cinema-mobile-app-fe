@@ -9,6 +9,7 @@ import FilmDetailScreen from "../screens/Film/FilmDetailScreen";
 import FilmScheduleScreen from "../screens/Film/FilmScheduleScreen";
 import RoomFilmScreen from "../screens/Room/RoomFilmScreen";
 import TabsNavigator from "./tabs";
+import checkAuth from "@/hoc/CheckAuth";
 
 export type RootStackParamList = {
   [AppRoutes.LOGIN]: undefined;

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Alert,
 } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { AppRoutes } from "@/navigator/type";
@@ -17,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/navigator/root";
 import moment from "moment";
+import { checkAuthAndProceed } from "@/hoc/CheckAuthAndProceed";
 
 type FilmDetailScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -46,12 +48,18 @@ const FilmDetailScreen: React.FC<FilmDetailScreenProps> = ({ route }) => {
   const [filmDetail, setFilmDetail] = useState<FilmDetail | null>(null);
 
   const navigation =
-  useNavigation<
-    NativeStackNavigationProp<RootStackParamList, AppRoutes.INFO_FILM_DETAIL>
-  >();
+    useNavigation<
+      NativeStackNavigationProp<RootStackParamList, AppRoutes.INFO_FILM_DETAIL>
+    >();
 
-  const handleScheduleFilm = (filmId: number) => {
-    navigation.navigate(AppRoutes.SCHEDULE_FILM_DETAIL, { filmId });
+  const handleScheduleFilm = async (filmId: number) => {
+    try {
+      await checkAuthAndProceed(navigation, () => {
+        navigation.navigate(AppRoutes.SCHEDULE_FILM_DETAIL, { filmId });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -90,14 +98,21 @@ const FilmDetailScreen: React.FC<FilmDetailScreenProps> = ({ route }) => {
             <Text style={styles.filmType}>2D</Text>
           </View>
           <View style={styles.infoContainerRight}>
-            <TouchableOpacity style={styles.bookingButton} onPress={() => filmDetail?.id && handleScheduleFilm(filmDetail.id)}>
+            <TouchableOpacity
+              style={styles.bookingButton}
+              onPress={() =>
+                filmDetail?.id && handleScheduleFilm(filmDetail.id)
+              }
+            >
               <Text style={styles.bookingButtonText}>ĐẶT VÉ</Text>
             </TouchableOpacity>
           </View>
         </View>
         <Text style={styles.line}></Text>
         <ScrollView>
-          <Text style={styles.description}>Mô tả phim: {filmDetail?.description}</Text>
+          <Text style={styles.description}>
+            Mô tả phim: {filmDetail?.description}
+          </Text>
 
           <Text style={styles.line}></Text>
           <Text style={styles.infoText}>
