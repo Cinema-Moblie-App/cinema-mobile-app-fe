@@ -1,7 +1,35 @@
-import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Linking, Alert } from 'react-native';
 import React from 'react';
+import { NavigationProp } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppRoutes } from "src/navigator/type";
+import Toast from 'react-native-toast-message';
 
-const AccountScreen = ({ navigation}) => {
+const AccountScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
+  const handleLogout = async () => {
+    try {
+      // Clear any stored user data
+      await AsyncStorage.removeItem('userToken');
+      
+      // Navigate to the login screen
+      navigation.navigate(AppRoutes.LOGIN);   
+      // Show a success message
+      Toast.show({
+        type: 'success',
+        text1: 'Thành công',
+        text2: 'Đăng xuất thành công',
+      });
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Show an error message
+      Toast.show({
+        type: 'error',
+        text1: 'Lỗi',
+        text2: 'Đã có lỗi xảy ra',
+      });
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Ticket Section */}
@@ -37,6 +65,9 @@ const AccountScreen = ({ navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.optionButton}>
         <Text style={styles.optionText}>🔒  Chính sách bảo mật</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.optionButton} onPress={handleLogout}>
+        <Text style={styles.optionText}>↩️ Đăng xuất</Text>
       </TouchableOpacity>
     </View>
   );
